@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>Bselect Jquery Plugin - Demo</title>
+<style>
+	body{
+		font-family: sans-serif;
+	}
+	.left{
+		width:40%;float:left
+	}
+	.row{
+		width:100%;
+		display: inline-block;
+	}
+</style>
+<link rel="stylesheet" type="text/css" href="bselect.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="jquery.bselect.js"></script>
+
+</head>
+<body>
+<div class="left">
+	<div class="row">
+		<h2>Simple Select box</h2>
+		<div id="custom-select"></div>
+	</div>
+
+	<div class="row">
+		<h2>Select box with search</h2>
+		<div id="custom-select-search"></div>
+	</div>
+
+	<div class="row">
+		<h2>Selectbox events</h2>
+		<div id="custom-select-search-events"></div>
+		<div id="console-events"></div>
+		<div id="clear">Clear</div>
+		<div id="console" style="border:1px solid; width:200px; font-size:11px;height:200px; overflow:scroll"></div>
+	</div>
+</div>
+<div class="left">
+	<div class="row">
+		<h2>Selectbox methods</h2>
+		<div class="left">
+			<div id="select-box"></div>
+		</div>
+		<div class="left">
+			<button id="f-open">Open</button>
+			<button id="f-close">Close</button>
+			<button id="f-toggle">Toggle</button>
+			<button id="f-select">Select by value (2 = New York)</button>
+			<button id="f-getSelected">Get selected</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<h2>Preselect by value</h2>
+		<div id="select-box-preselect"></div>
+	</div>
+
+	<div class="row">
+		<h2>Options</h2>
+		<pre>
+			$('#select-box-preselect').bselect({
+				data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
+				search : true, 
+				width : "200px",
+				defaultText : "Select me",
+				className : "", //Append custom class name
+				inputName : "bselect-input", //Name of the hidden input
+				selected : 0,	//Pre select value
+				closeOnSelect : true,
+				elipsis : true,
+				focusDelay : 100, //ms
+				doneTypingInterval : 180 //ms
+			});
+
+		</pre>
+
+	</div>
+</div>
+<script>
+	$('#f-open').on('click', function(e){
+
+		$('#select-box').bselect("open");
+	});
+	$('#f-close').on('click', function(e){
+
+		$('#select-box').bselect("close");
+	});
+	$('#f-toggle').on('click', function(e){
+
+		$('#select-box').bselect("toggle");
+	});
+	$('#f-select').on('click', function(e){
+
+		$('#select-box').bselect("selectById", 2);
+	});
+	$('#f-getSelected').on('click', function(e){
+
+		alert('Selected value:'+$('#select-box').bselect("getSelected"))
+
+	});
+	var data = {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"};
+	$('#select-box-preselect').bselect({
+		data : data, 
+		search : true, 
+		selected : 2,
+		width : '200px',
+		defaultText : "Select..."
+	});
+
+	$('#custom-select').bselect({
+		data : data, 
+		search : true, 
+		width : '200px',
+		defaultText : "Select..."
+	});
+
+	$('#custom-select-search').bselect({
+		data : data,
+		search : true, 
+		width : '200px',
+		defaultText : "Select..."
+	});
+
+	$('#custom-select-search-events').bselect({
+		data : data,
+		search : true, 
+		width : '200px',
+		defaultText : "Select..."
+	});
+
+	$('#custom-select-search-events').bselect({
+		data : data,
+		search : true, 
+		width : '200px',
+		defaultText : "Select..."
+	});
+
+	$('#select-box').bselect({
+		data : data, 
+		search : false, 
+		width : '200px',
+		defaultText : "Select..."
+	});
+
+	var consoleLog = $('#console');
+	$('#clear').on('click', function(e){
+		consoleLog.html('');
+	})
+	
+	//Open started
+	$('#custom-select-search-events').on('open.bselect', function(e,params){
+		consoleLog.append('open started<br>');
+	});
+
+	//Open finished (After open)
+	$('#custom-select-search-events').on('opened.bselect', function(e,params){
+		consoleLog.append('open finished<br>');
+	});
+
+	//Close triggered
+	$('#custom-select-search-events').on('close.bselect', function(e,params){
+		consoleLog.append('close started<br>');
+	});
+
+	//Close finished (After close)
+	$('#custom-select-search-events').on('closed.bselect', function(e,params){
+		consoleLog.append('close finished<br>');
+	});
+	
+	//Toggle started
+	$('#custom-select-search-events').on('toggle.bselect', function(e,params){
+		consoleLog.append('toggle started<br>');
+	});
+
+	//Toggle finished
+	$('#custom-select-search-events').on('toggled.bselect', function(e,params){
+		consoleLog.append('toggle finished<br>');
+	});
+
+	//Item selected
+	$('#custom-select-search-events').on('select.bselect', function(e,params){
+		
+		consoleLog.append('selected: '+params.element.data('id')+', '+params.element.text()+'<br>');
+	});
+
+
+</script>
+</body>
+</html>
