@@ -2,9 +2,11 @@
 
 jQuery Select Plugin - Alternative to Chozen Jquery Plugin
 
+[See demo here](http://labs.brid.tv/bselect/demo.html).
+
 ## Getting Started
 
-Bselect is a plugin that builds custom HTML selectbox with search and inpouts selected value into the input field for further use. To implement please see demo.html page.
+Bselect is a plugin that builds custom HTML selectbox with search and inpouts selected value into the input field for further use. To implement please see demo.html page. Bselect is working perfectley with 10k+ options (items) with no delays.
 
 ### Prerequisites
 
