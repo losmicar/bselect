@@ -57,6 +57,8 @@
 				<button id="f-toggle">Toggle</button>
 				<button id="f-select">Select by value (2 = New York)</button>
 				<button id="f-getSelected">Get selected</button>
+				<button id="f-prepend">Prepend - { 8 : "Paris"}</button>
+				<button id="f-append">Append - { 12 : "Berlin"}</button>
 			</div>
 		</div>
 
@@ -87,6 +89,16 @@ $('#select-box-preselect').bselect({
 	</div>
 </div>
 <script>
+	$('#f-prepend').on('click', function(e){
+
+		$('#select-box').bselect("prepend", "8", "Paris");
+		$('#select-box').bselect("open");
+	});
+	$('#f-append').on('click', function(e){
+
+		$('#select-box').bselect("append", "12", "Berlin");
+		$('#select-box').bselect("open");
+	});
 	$('#f-open').on('click', function(e){
 
 		$('#select-box').bselect("open");

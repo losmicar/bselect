@@ -176,11 +176,14 @@
 	}
 	Bselect.prototype.add = function add(method, id, name){
 		
-		this.jsonData[id] = name;
-		var option = this.buildOption(id);
-		method=="append" ? this.list.append(option) : this.list.prepend(option);
-		this.list_items = this.list.children();
-		this.bindClick();
+		if(this.jsonData[id]==undefined){
+			this.jsonData[id] = name;
+			var option = this.buildOption(id);
+			method=="append" ? this.list.append(option) : this.list.prepend(option);
+			this.list_items = this.list.children();
+			this.bindClick();
+			_self.element.trigger("updated.bselect", {bselect : _self.id, obj : _self});
+		}
 	}
 	Bselect.prototype.selectById = function(id, doNotTriggerEvents){
 		

@@ -78,6 +78,11 @@ $('#custom-select-search-events').on('select.bselect', function(e,params){
 	
 	...  params.element.data('id')  .... params.element.text()
 });
+
+//List updated
+$('#custom-select-search-events').on('updated.bselect', function(e,params){
+	
+});
 ```
 
 ### Methods supported
@@ -98,6 +103,11 @@ $('#select-box').bselect("selectById", 2);
 //Get selected value
 $('#select-box').bselect("getSelected")
 
+//Apepnd new item
+$('#select-box').bselect("append", 12, "Paris")
+
+//Prepend new item
+$('#select-box').bselect("prepend", 8, "Berlin")
 ```
 
 ### Options supported
