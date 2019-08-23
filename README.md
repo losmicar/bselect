@@ -121,4 +121,4 @@ $('#select-box-preselect').bselect({
 ## FAQ
 
 1. Is multiple select supported?
-	-No.
+	- No.
