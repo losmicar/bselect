@@ -6,11 +6,14 @@
 		font-family: sans-serif;
 	}
 	.left{
-		width:40%;float:left
+		width:50%;float:left
 	}
 	.row{
 		width:100%;
 		display: inline-block;
+	}
+	h1,h2{
+		text-align: center;
 	}
 </style>
 <link rel="stylesheet" type="text/css" href="bselect.css"/>
@@ -19,64 +22,68 @@
 
 </head>
 <body>
-<div class="left">
-	<div class="row">
-		<h2>Simple Select box</h2>
-		<div id="custom-select"></div>
-	</div>
+	<h1>jQuery Select Plugin</h1>
+	<h2 style="padding-bottom:30px">Alternative to Chozen Jquery Plugin</h2>
 
-	<div class="row">
-		<h2>Select box with search</h2>
-		<div id="custom-select-search"></div>
-	</div>
-
-	<div class="row">
-		<h2>Selectbox events</h2>
-		<div id="custom-select-search-events"></div>
-		<div id="console-events"></div>
-		<div id="clear">Clear</div>
-		<div id="console" style="border:1px solid; width:200px; font-size:11px;height:200px; overflow:scroll"></div>
-	</div>
-</div>
-<div class="left">
-	<div class="row">
-		<h2>Selectbox methods</h2>
-		<div class="left">
-			<div id="select-box"></div>
+<div style="width:1050px; margin:0px auto">
+	<div class="left">
+		<div class="row">
+			<h3>Simple Select box</h3>
+			<div id="custom-select"></div>
 		</div>
-		<div class="left">
-			<button id="f-open">Open</button>
-			<button id="f-close">Close</button>
-			<button id="f-toggle">Toggle</button>
-			<button id="f-select">Select by value (2 = New York)</button>
-			<button id="f-getSelected">Get selected</button>
+
+		<div class="row">
+			<h3>Select box with search</h3>
+			<div id="custom-select-search"></div>
+		</div>
+
+		<div class="row">
+			<h3>Selectbox events</h3>
+			<div id="custom-select-search-events"></div>
+			<div id="console-events"></div>
+			<div id="clear">Clear</div>
+			<div id="console" style="border:1px solid; width:200px; font-size:11px;height:200px; overflow:scroll"></div>
 		</div>
 	</div>
+	<div class="left">
+		<div class="row">
+			<h3>Selectbox methods</h3>
+			<div class="left">
+				<div id="select-box"></div>
+			</div>
+			<div class="left">
+				<button id="f-open">Open</button>
+				<button id="f-close">Close</button>
+				<button id="f-toggle">Toggle</button>
+				<button id="f-select">Select by value (2 = New York)</button>
+				<button id="f-getSelected">Get selected</button>
+			</div>
+		</div>
 
-	<div class="row">
-		<h2>Preselect by value</h2>
-		<div id="select-box-preselect"></div>
-	</div>
+		<div class="row">
+			<h3>Preselect by value</h3>
+			<div id="select-box-preselect"></div>
+		</div>
 
-	<div class="row">
-		<h2>Options</h2>
-		<pre>
-			$('#select-box-preselect').bselect({
-				data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
-				search : true, 
-				width : "200px",
-				defaultText : "Select me",
-				className : "", //Append custom class name
-				inputName : "bselect-input", //Name of the hidden input
-				selected : 0,	//Pre select value
-				closeOnSelect : true,
-				elipsis : true,
-				focusDelay : 100, //ms
-				doneTypingInterval : 180 //ms
-			});
+		<div class="row">
+			<h3>Options</h3>
+<pre>
+$('#select-box-preselect').bselect({
+	data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
+	search : true, 
+	width : "200px",
+	defaultText : "Select me",
+	className : "", //Append custom class name
+	inputName : "bselect-input", //Name of the hidden input
+	selected : 0,	//Pre select value
+	closeOnSelect : true,
+	elipsis : true,
+	focusDelay : 100, //ms
+	doneTypingInterval : 180 //ms
+});
+</pre>
 
-		</pre>
-
+		</div>
 	</div>
 </div>
 <script>

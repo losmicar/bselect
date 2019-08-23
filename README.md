@@ -18,21 +18,31 @@ jQuery 2.X
 
 ### Basic example
 
-```
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="bselect.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="jquery.bselect.js"></script>
+</head>
+<body>
 <div id="custom-select"></div>
 <script>
-$('#custom-select').bselect({
+	$('#custom-select').bselect({
 		data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
 		search : true, 
 		width : '200px',
 		defaultText : "Select..."
 	});
 </script>
+</body>
+</html>
 ```
 
 ### Events supported
 
-```
+```html
 //Open started
 $('#custom-select-search-events').on('open.bselect', function(e,params){
 	...
@@ -72,7 +82,7 @@ $('#custom-select-search-events').on('select.bselect', function(e,params){
 
 ### Methods supported
 
-```
+```html
 //Open selectbox
 $('#select-box').bselect("open");
 
@@ -92,7 +102,7 @@ $('#select-box').bselect("getSelected")
 
 ### Options supported
 
-```
+```html
 $('#select-box-preselect').bselect({
 	data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
 	search : true, 
@@ -108,3 +118,8 @@ $('#select-box-preselect').bselect({
 });
 ```
 
+## FAQ
+
+1. Is multiple select supported?
+
+No.
