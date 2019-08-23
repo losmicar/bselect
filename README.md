@@ -42,7 +42,7 @@ jQuery 2.X
 
 ### Events supported
 
-```html
+```javascript
 //Open started
 $('#custom-select-search-events').on('open.bselect', function(e,params){
 	...
@@ -82,7 +82,7 @@ $('#custom-select-search-events').on('select.bselect', function(e,params){
 
 ### Methods supported
 
-```html
+```javascript
 //Open selectbox
 $('#select-box').bselect("open");
 
@@ -102,7 +102,7 @@ $('#select-box').bselect("getSelected")
 
 ### Options supported
 
-```html
+```javascript
 $('#select-box-preselect').bselect({
 	data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
 	search : true, 
@@ -121,5 +121,4 @@ $('#select-box-preselect').bselect({
 ## FAQ
 
 1. Is multiple select supported?
-
-No.
+	-No.
