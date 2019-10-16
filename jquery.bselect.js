@@ -331,7 +331,7 @@
 		this.enable(id)
 		elem.parent().remove();
 		if(this.selected=='' || this.selected==null){
-			this.active.html(this.active.html(this.settings.defaultText));
+			this.active.html(this.wrapSelected(this.settings.defaultText));
 		}
 	}
 	/**

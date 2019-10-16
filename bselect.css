@@ -31,10 +31,10 @@
 .bselect-multiple-item{
 	display: inline-flex;
     border: 1px solid #dedede;
-    margin: 3px;
+    margin: 2px;
     padding-right: 10px;
     border-radius: 3px;
-        padding-left: 10px;
+    padding-left: 10px;
 }
 .bselect-active.elipsis{
 	white-space: nowrap;
