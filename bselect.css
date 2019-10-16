@@ -13,9 +13,28 @@
     cursor: pointer;
     font-size: 13px;
     line-height: 2.4em;
-    text-indent: 10px;
+    /*text-indent: 10px;
+    padding-left:10px;*/
     position:relative;
     display:inline-block;
+}
+.bselect-disabled{
+	color:#ababab;
+}
+.bselect-remove{
+	display: inline-flex;
+	    padding-left: 10px;
+}
+.bselect-default-text{
+	padding-left:10px;
+}
+.bselect-multiple-item{
+	display: inline-flex;
+    border: 1px solid #dedede;
+    margin: 3px;
+    padding-right: 10px;
+    border-radius: 3px;
+        padding-left: 10px;
 }
 .bselect-active.elipsis{
 	white-space: nowrap;

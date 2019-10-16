@@ -44,6 +44,12 @@
 			<div id="clear">Clear</div>
 			<div id="console" style="border:1px solid; width:200px; font-size:11px;height:200px; overflow:scroll"></div>
 		</div>
+		
+		<div class="row">
+			<h3>Multiple select</h3>
+			<div id="custom-select-multiple"></div>
+			<div id="custom-select-multiple-items"></div>
+		</div>
 	</div>
 	<div class="left">
 		<div class="row">
@@ -128,7 +134,26 @@ $('#select-box-preselect').bselect({
 		width : '200px',
 		defaultText : "Select..."
 	});
-
+	$('#custom-select-multiple').bselect({
+		data : data, 
+		search : true, 
+		multiple : true,
+		width : '200px',
+		defaultText : "Select..."
+	});
+	
+	$('#custom-select-multiple').on('selected.bselect', function(e,params){
+	
+		$('#custom-select-multiple-items').html('Selected:'+$('#custom-select-multiple').bselect("getSelected"));
+		
+	});
+	
+	$('#custom-select-multiple').on('unseleced.bselect', function(e,params){
+		
+		$('#custom-select-multiple-items').html('Selected:'+$('#custom-select-multiple').bselect("getSelected"));
+		
+	});
+	
 	$('#custom-select').bselect({
 		data : data, 
 		search : true, 
@@ -160,6 +185,7 @@ $('#select-box-preselect').bselect({
 	$('#select-box').bselect({
 		data : data, 
 		search : false, 
+		multiple : true, 
 		width : '200px',
 		defaultText : "Select..."
 	});

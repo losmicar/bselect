@@ -27,11 +27,24 @@ jQuery 2.X
 	<script src="jquery.bselect.js"></script>
 </head>
 <body>
+<!-- Simple selectbox -->
 <div id="custom-select"></div>
 <script>
 	$('#custom-select').bselect({
 		data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
 		search : true, 
+		width : '200px',
+		defaultText : "Select..."
+	});
+</script>
+
+<!-- Multiple selectbox (Will store values in CSV format) -->
+<div id="custom-select"></div>
+<script>
+	$('#custom-select').bselect({
+		data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
+		search : true, 
+		multiple : true, 
 		width : '200px',
 		defaultText : "Select..."
 	});
@@ -73,14 +86,27 @@ $('#custom-select-search-events').on('toggled.bselect', function(e,params){
 	...
 });
 
-//Item selected
+//Item select started
 $('#custom-select-search-events').on('select.bselect', function(e,params){
 	
 	...  params.element.data('id')  .... params.element.text()
 });
 
+//Item is selected
+$('#custom-select-search-events').on('selected.bselect', function(e,params){
+	
+	... $('#custom-select-search-events').bselect("getSelected")
+});
+
 //List updated
 $('#custom-select-search-events').on('updated.bselect', function(e,params){
+	
+});
+
+//Available in multiple select mode only
+
+//Item is unselected
+$('#custom-select-search-events').on('unselected.bselect', function(e,params){
 	
 });
 ```
@@ -100,7 +126,7 @@ $('#select-box').bselect("toggle");
 //Set selected value
 $('#select-box').bselect("selectById", 2);
 
-//Get selected value
+//Get selected value (will return multiple values in csv format when multiple mode is enabled)
 $('#select-box').bselect("getSelected")
 
 //Apepnd new item
@@ -108,6 +134,12 @@ $('#select-box').bselect("append", 12, "Paris")
 
 //Prepend new item
 $('#select-box').bselect("prepend", 8, "Berlin")
+
+//Disable click on item
+$('#select-box').bselect("disable", 8)
+
+//Enable click on item
+$('#select-box').bselect("enable", 8)
 ```
 
 ### Options supported
@@ -115,9 +147,10 @@ $('#select-box').bselect("prepend", 8, "Berlin")
 ```javascript
 $('#select-box-preselect').bselect({
 	data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
-	search : true, 
+	search : true, //To enable quick search
 	width : "200px",
-	defaultText : "Select me",
+	multiple : false, //To enable multiple selectbox mode
+	defaultText : "Select me", //Default text to be displayed
 	className : "", //Append custom class name
 	inputName : "bselect-input", //Name of the hidden input
 	selected : 0,	//Pre select value
@@ -127,8 +160,4 @@ $('#select-box-preselect').bselect({
 	doneTypingInterval : 180 //ms
 });
 ```
-
-## FAQ
-
-1. Is multiple select supported?
-	- No.
+To enable multiple selectbox  mode mutliple must be set to true. When multiple mode is enabled selected values are stored in CSV format.
