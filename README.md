@@ -155,6 +155,7 @@ $('#select-box-preselect').bselect({
 	inputName : "bselect-input", //Name of the hidden input
 	selected : 0,	//Pre select value
 	closeOnSelect : true,
+	checkInView : true, //Check if dropdown list will be in view, if not render it above the element
 	elipsis : true,
 	focusDelay : 100, //ms
 	doneTypingInterval : 180 //ms
