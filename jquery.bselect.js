@@ -87,9 +87,21 @@
 		var width = $(this.bselect).width();
 		$(this.content).css('width', width);
 
-		if(this.settings.selected){
-			this.selected = this.settings.selected;
-			this.selectById(this.settings.selected);
+		var $this = this;
+		
+		if($this.settings.selected){
+			
+			if($.isArray($this.settings.selected)){
+				
+				$this.selected = $this.settings.selected.join(',');
+				$.each($this.settings.selected, function(key, val){
+					$this.selectById(val);
+				});
+				
+			}else{
+				$this.selected = this.settings.selected;
+				$this.selectById(this.settings.selected);
+			}
 		}
 		
 		
