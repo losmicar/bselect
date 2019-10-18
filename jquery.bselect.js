@@ -86,21 +86,18 @@
 		this.bselect.css('width', this.settings.width);
 		var width = $(this.bselect).width();
 		$(this.content).css('width', width);
-
-		var $this = this;
 		
-		if($this.settings.selected){
+		//Preselect values
+		if(this.settings.selected){
 			
-			if($.isArray($this.settings.selected)){
-				
-				$this.selected = $this.settings.selected.join(',');
-				$.each($this.settings.selected, function(key, val){
-					$this.selectById(val);
+			if($.isArray(this.settings.selected)){
+				var _self = this;
+				$.each(this.settings.selected, function(key, val){
+					_self.selectById(val, false);
 				});
 				
 			}else{
-				$this.selected = this.settings.selected;
-				$this.selectById(this.settings.selected);
+				this.selectById(this.settings.selected);
 			}
 		}
 		
@@ -108,14 +105,7 @@
 	}
 	Bselect.prototype.isElementInViewport = function() {
 
-	    //special bonus for those using jQuery
-	    /*if (typeof jQuery === "function" && el instanceof jQuery) {
-	        el = this.element[0];
-	    }*/
-
-	    el = this.content[0];
-	    
-	    var rect = el.getBoundingClientRect();
+	    var rect = this.content[0].getBoundingClientRect();
 
 	    return (
 	        rect.top >= 0 &&
