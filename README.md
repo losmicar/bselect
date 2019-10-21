@@ -1,6 +1,6 @@
 # Bselect - jQuery Select Plugin
 
-jQuery Select Plugin - Alternative to Chozen Jquery Plugin
+Bselect jQuery Select Plugin - Alternative to Chozen Jquery Plugin
 
 [See demo here](http://labs.brid.tv/bselect/demo.html).
 
