@@ -19,7 +19,7 @@
 		};
 		this.settings = $.extend(this.defaultSettings, options);
 		this.element = element;
-		this.selected = null;
+		this.selectedItems = null;
 		this.elipsis = this.settings.elipsis ? 'elipsis' : '';
 		this.searchInputValue = "";
 		this.jsonData = this.settings.data ? this.settings.data : null;
@@ -117,13 +117,7 @@
 	Bselect.prototype.wrapSelected = function(text){
 		return "<div class='bselect-default-text'>"+text+"</div>";
 	}
-	/**
-	 * Build single option
-	 */
-	Bselect.prototype.buildOption = function(id){
-		
-		return "<li data-id='"+id+"' class='bselect-item "+this.elipsis+"'>"+this.jsonData[id]+"</li>";
-	}
+	
 	/**
 	 * Check Promise to prevent UI block
 	 */
@@ -251,14 +245,36 @@
 	Bselect.prototype.find = function(id){
 		
 		var item = null;
-		this.list_items.filter(function(){
-			
-			if($(this).data('id')==id){
-				item =  $(this);
-				return false;
-			}
-		});
+		if(this.list_items){
+			this.list_items.filter(function(){
+				
+				if($(this).data('id')==id){
+					item =  $(this);
+					return false;
+				}
+			});
+		}
 		return item;
+		
+	}
+	/**
+	 * Find element in list
+	 */
+	Bselect.prototype.findSelected = function(id){
+		
+		var selected = false;
+		if(this.selectedItems){
+			var s = this.selectedItems.split(',');
+			if(s){
+				s.filter(function(k,v){
+					if(k==id){
+						selected =  true;
+						return false;
+					}
+				});
+			}
+		}
+		return selected;
 		
 	}
 	/**
@@ -268,7 +284,7 @@
 	 */
 	Bselect.prototype.getSelected = function(){
 		
-		return this.selected;
+		return this.selectedItems;
 	}
 	/**
 	 * Select item
@@ -298,7 +314,7 @@
 	Bselect.prototype.selectElement = function(elem){
 		
 		if(this.settings.multiple){
-			if(this.selected==null || this.selected==''){
+			if(this.selectedItems==null || this.selectedItems==''){
 				this.active.html('');
 			}
 			var id = elem.data('id');
@@ -306,11 +322,18 @@
 			this.appendSelectedValue(id);
 			elem.addClass('bselect-disabled');
 			
+			//this.doneTyping(this, $(this.searchInput).val());
+			
 		}else{
-			this.selected = elem.data('id');
-			this.input.val(this.selected);
+			
+			this.appendSelectedValue(id);
 			this.active.html(this.wrapSelected(elem.text()));
+			/*
+			this.selectedItems = elem.data('id');
+			this.input.val(this.selectedItems);
+			this.active.html(this.wrapSelected(elem.text()));*/
 		}
+		
 		
 	}
 	/**
@@ -319,7 +342,7 @@
 	Bselect.prototype.removeSelected = function(elem){
 		
 		this.removeItem($(elem));
-		
+		this.doneTyping(this, $(this.searchInput).val());
 		this.element.trigger("unseleced.bselect", {bselect : this.id, element : elem, obj : this});
 	}
 	/**
@@ -330,6 +353,19 @@
 		if(item){
 			item.addClass('bselect-disabled');
 		}
+	}
+	/**
+	 * Check is element disabled
+	 */
+	Bselect.prototype.disabled = function(id){
+		var item = this.find(id);
+		return (item) ? item.hasClass('bselect-disabled') : false;
+	}
+	/**
+	 * Check is element disabled
+	 */
+	Bselect.prototype.selected = function(id){
+		return this.findSelected(id);
 	}
 	/**
 	 * Enable selecting item by id/value
@@ -353,9 +389,9 @@
 	
 		var id = elem.data('id');
 		this.removeSelectedValue(id);
-		this.enable(id)
+		this.enable(id);
 		elem.parent().remove();
-		if(this.selected=='' || this.selected==null){
+		if(this.selectedItems=='' || this.selectedItems==null){
 			this.active.html(this.wrapSelected(this.settings.defaultText));
 		}
 	}
@@ -366,8 +402,8 @@
 		var v = this.input.val();
 		v = v.split(',');
 		v = this.removeA(v, value.toString());
-		this.selected = v.join(',');
-		this.input.val(this.selected);
+		this.selectedItems = v.join(',');
+		this.input.val(this.selectedItems);
 	}
 	/**
 	 * Remove item from array bu value
@@ -394,28 +430,38 @@
 			v = [];
 		}
 		v.push(value);
-		this.selected = v.join(',');
-		this.input.val(this.selected);
+		this.selectedItems = v.join(',');
+		this.input.val(this.selectedItems);
 		
+	}
+	/**
+	 * Build single option
+	 */
+	Bselect.prototype.buildOption = function(id){
+		
+		disabled = this.selected(id) ? ' bselect-disabled' : '';
+		return "<li data-id='"+id+"' class='bselect-item "+this.elipsis+disabled+"'>"+this.jsonData[id]+"</li>";
 	}
 	/**
 	 * Done search typing
 	 */
 	Bselect.prototype.doneTyping = function(_self, searchInputValue){
 		
-		if(searchInputValue==""){
-			_self.list_items.css('display', 'block');
-		}else{
-		
-			_self.list_items.each(function(k,v){
-				
-				if($(v).text().toLowerCase().indexOf(searchInputValue.toLowerCase())!==-1){
-					$(v).css('display', 'block');
-				}else{
-					$(v).css('display', 'none');
-				}
-			});
-		}
+		 var results = '';
+		 for(var i in _self.jsonData){
+
+
+			  if (_self.settings.search==false || _self.jsonData[i].toLowerCase().indexOf(searchInputValue.toLowerCase()) !== -1) {
+
+		            results += _self.buildOption(i);
+		        }
+
+		  }
+		 if(results==''){
+			 results = '<div class="bselect-no-results">No results.</div>';
+		 }
+		  _self.list.html(results);
+		  _self.bindClick();
 		
 	}
 	/**
@@ -449,8 +495,8 @@
 		
 		//Search
 		$(this.searchInput).on('keyup', function(event) {
-			 clearTimeout(_self.typingTimer);
-			 var searchInputValue = $(this).val();
+			clearTimeout(_self.typingTimer);
+			var searchInputValue = $(this).val();
 			 _self.typingTimer = setTimeout(_self.doneTyping, _self.doneTypingInterval,_self, searchInputValue);
 			  
 		});

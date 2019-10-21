@@ -140,6 +140,12 @@ $('#select-box').bselect("disable", 8)
 
 //Enable click on item
 $('#select-box').bselect("enable", 8)
+
+//Is selected option
+$('#select-box').bselect("selected", 8)
+
+//Is disabled option
+$('#select-box').bselect("disabled", 8)
 ```
 
 ### Options supported

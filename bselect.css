@@ -1,6 +1,7 @@
 .bselect{
 	display: inline-block;
     font-family: sans-serif;
+    position: relative;
 }
 .bselect-active{
 	cursor:pointer;
@@ -23,7 +24,8 @@
 }
 .bselect-remove{
 	display: inline-flex;
-	    padding-left: 10px;
+	padding-right: 5px;
+	padding-left: 5px;
 }
 .bselect-default-text{
 	padding-left:10px;
