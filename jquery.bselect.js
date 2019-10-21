@@ -231,7 +231,7 @@
 			method=="append" ? this.list.append(option) : this.list.prepend(option);
 			this.list_items = this.list.children();
 			this.bindClick();
-			_self.element.trigger("updated.bselect", {bselect : _self.id, obj : _self});
+			this.element.trigger("updated.bselect", {bselect : this.id, obj : this});
 		}
 	}
 	/**
