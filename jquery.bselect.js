@@ -507,6 +507,36 @@
 		
 	}
 	
+	/*
+	 * Select all data by puting this.jsonData to hidden input in csv format
+	 */
+	Bselect.prototype.selectAll = function(){
+		
+		var _self = this;
+		
+		$.each(this.jsonData, function (key, val) {
+			_self.appendSelectedValue(key);
+	    });
+		
+	}
+	
+	/*
+	 * Remove all data from hidden input
+	 */
+	Bselect.prototype.removeAll = function(){
+		
+		var selected = this.selectedItems.split(',');
+		
+		$.each(selected, function( index, value ){
+			$('#bselect-multiple-' + value).remove();
+		});
+		
+		this.input.val('');
+		this.selectedItems = '';
+		this.active.html(this.wrapSelected(this.settings.defaultText));
+		
+	}
+	
 	 $.fn.bselect = function() {
 		 
 		 var args = arguments, option = args[0];

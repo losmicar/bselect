@@ -146,6 +146,12 @@ $('#select-box').bselect("selected", 8)
 
 //Is disabled option
 $('#select-box').bselect("disabled", 8)
+
+//Select all data and add it like csv values in hidden input
+$('#select-box').bselect("selectAll")
+
+//Remove/deselect all data from bselect
+$('#select-box').bselect("removeAll")
 ```
 
 ### Options supported
