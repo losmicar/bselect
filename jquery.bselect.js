@@ -315,8 +315,8 @@
 		}else{
 			
 			this.input.val('');
-			this.selectedItems = null;
-			//this.removeAll();
+			this.deselectAll();
+			
 			this.appendSelectedValue(id);
 			this.active.html(this.wrapSelected(elem.text()));
 		
@@ -521,15 +521,34 @@
 	 */
 	Bselect.prototype.deselectAll = function(){
 		
-		if(this.selectedItems && this.settings.multiple){
+		if(this.selectedItems){
+			
 			var selected = this.selectedItems.split(',');
 			var _self = this;
-			$.each(selected, function( index, id ){
-					_self.removeSelected($('#bselect-multiple-'+id).find('.bselect-remove'));
-			});
 			
+			if(this.settings.multiple){
+				
+				$.each(selected, function( index, id ){
+						_self.removeSelected($('#bselect-multiple-'+id).find('.bselect-remove'));
+				});
+			}else{
+				var selected = this.selectedItems.split(',');
+				$.each(selected, function( index, id ){
+					_self.deselect(_self.find(id));
+				});
+			}
 		}
 		
+	}
+	
+	Bselect.prototype.deselect = function(elem, doNotTriggerEvents){
+		
+		if(typeof elem != 'object'){
+			elem = this.find(elem);
+		}
+		var id = elem.data('id');
+		this.removeSelectedValue(id);
+		this.enable(id);
 	}
 	/**
 	 * Find element in list
