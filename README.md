@@ -1,12 +1,12 @@
 # Bselect - jQuery Select Plugin
 
-jQuery Select Plugin - Alternative to Chozen Jquery Plugin
+Bselect jQuery Select Plugin - Alternative to Chozen Jquery Plugin
 
 [See demo here](http://labs.brid.tv/bselect/demo.html).
 
 ## Getting Started
 
-Bselect is a plugin that builds custom HTML selectbox with search and inpouts selected value into the input field for further use. To implement please see demo.html page. Bselect is working perfectley with 10k+ options (items) with no delays.
+Bselect is a jQuery plugin that builds custom HTML selectbox with search and inpouts selected value into the hidden input field for further use. To implement please see demo.html page. Bselect is working perfectley with 10k+ options (items) with no delays.
 
 ### Prerequisites
 
@@ -146,6 +146,12 @@ $('#select-box').bselect("selected", 8)
 
 //Is disabled option
 $('#select-box').bselect("disabled", 8)
+
+//Select all data and add it like csv values in hidden input
+$('#select-box').bselect("selectAll")
+
+//Remove/deselect all data from bselect
+$('#select-box').bselect("removeAll")
 ```
 
 ### Options supported
