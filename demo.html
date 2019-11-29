@@ -23,7 +23,8 @@
 </head>
 <body>
 	<h1>jQuery Select Plugin</h1>
-	<h2 style="padding-bottom:30px">Alternative to Chozen Jquery Plugin</h2>
+	<h2>Alternative to Chozen Jquery Plugin</h2>
+	<h2 style="padding-bottom:30px; font-size:18px;"><a href="https://github.com/losmicar/bselect">Back to GitHub</a></h2>
 
 <div style="width:1050px; margin:0px auto">
 	<div class="left">
@@ -111,11 +112,13 @@ $('#select-box-preselect').bselect({
 	$('#f-deselectAll').on('click', function(e){
 		
 		$('#select-box').bselect("removeAll");
+		$('#select-box').bselect("open");
 		
 	});
 	$('#f-enableAll').on('click', function(e){
 		
 		$('#select-box').bselect("enableAll");
+		$('#select-box').bselect("open");
 		
 	});
 	$('#f-disableAll').on('click', function(e){
@@ -126,11 +129,13 @@ $('#select-box-preselect').bselect({
 	$('#f-disable').on('click', function(e){
 	
 		$('#select-box').bselect("disable", 1);
+		$('#select-box').bselect("open");
 		
 	});
 	$('#f-enable').on('click', function(e){
 		
 		$('#select-box').bselect("enable", 1);
+		$('#select-box').bselect("open");
 		//$('#select-box').bselect("open");
 	});
 	$('#f-prepend').on('click', function(e){
