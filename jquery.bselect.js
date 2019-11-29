@@ -513,6 +513,14 @@
 	 */
 	Bselect.prototype.removeAll = function(){
 		
+		this.deselectAll();
+		
+	}
+	/*
+	 * Deselect all data from hidden input
+	 */
+	Bselect.prototype.deselectAll = function(){
+		
 		if(this.selectedItems && this.settings.multiple){
 			var selected = this.selectedItems.split(',');
 			var _self = this;

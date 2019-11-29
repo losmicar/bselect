@@ -138,20 +138,33 @@ $('#select-box').bselect("prepend", 8, "Berlin")
 //Disable click on item
 $('#select-box').bselect("disable", 8)
 
-//Enable click on item
-$('#select-box').bselect("enable", 8)
+//Get disabled
+$('#select-box').bselect("getDisabled");
+
+//To disable selecting all elements
+$('#select-box').bselect("disableAll");
+
+//Is option disabled 
+$('#select-box').bselect("disabled", 8)
 
 //Is selected option
 $('#select-box').bselect("selected", 8)
 
-//Is disabled option
-$('#select-box').bselect("disabled", 8)
-
-//Select all data and add it like csv values in hidden input
+//Select all data and add it like csv values in hidden input (available only in multiple mode)
 $('#select-box').bselect("selectAll")
 
-//Remove/deselect all data from bselect
-$('#select-box').bselect("removeAll")
+//Deselect all items from bselect (available only in multiple mode)
+$('#select-box').bselect("deselectAll")
+
+//Deselect item
+$('#select-box').bselect("deselect", 11);
+
+//Enable click on item
+$('#select-box').bselect("enable", 8)
+
+//Enable click on all items
+$('#select-box').bselect("enableAll");
+
 ```
 
 ### Options supported
