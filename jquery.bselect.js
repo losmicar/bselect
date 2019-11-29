@@ -242,24 +242,6 @@
 	/**
 	 * Find element in list
 	 */
-	Bselect.prototype.find = function(id){
-		
-		var item = null;
-		if(this.list_items){
-			this.list_items.filter(function(){
-				
-				if($(this).data('id')==id){
-					item =  $(this);
-					return false;
-				}
-			});
-		}
-		return item;
-		
-	}
-	/**
-	 * Find element in list
-	 */
 	Bselect.prototype.findSelected = function(id){
 		
 		var selected = false;
@@ -313,11 +295,12 @@
 	 */
 	Bselect.prototype.selectElement = function(elem){
 		
+		var id = elem.data('id');
 		if(this.settings.multiple){
 			if(this.selectedItems==null || this.selectedItems==''){
 				this.active.html('');
 			}
-			var id = elem.data('id');
+			
 			this.active.append(this.addItem(elem));
 			this.appendSelectedValue(id);
 			elem.addClass('bselect-disabled');
@@ -326,12 +309,12 @@
 			
 		}else{
 			
+			this.input.val('');
+			this.selectedItems = null;
+			this.removeAll();
 			this.appendSelectedValue(id);
 			this.active.html(this.wrapSelected(elem.text()));
-			/*
-			this.selectedItems = elem.data('id');
-			this.input.val(this.selectedItems);
-			this.active.html(this.wrapSelected(elem.text()));*/
+		
 		}
 		
 		
@@ -345,15 +328,7 @@
 		this.doneTyping(this, $(this.searchInput).val());
 		this.element.trigger("unseleced.bselect", {bselect : this.id, element : elem, obj : this});
 	}
-	/**
-	 * Disable selecting item by id/value
-	 */
-	Bselect.prototype.disable = function(id){
-		var item = this.find(id);
-		if(item){
-			item.addClass('bselect-disabled');
-		}
-	}
+	
 	/**
 	 * Check is element disabled
 	 */
@@ -367,15 +342,7 @@
 	Bselect.prototype.selected = function(id){
 		return this.findSelected(id);
 	}
-	/**
-	 * Enable selecting item by id/value
-	 */
-	Bselect.prototype.enable = function(id){
-		var item = this.find(id);
-		if(item){
-			item.removeClass('bselect-disabled');
-		}
-	}
+	
 	/**
 	 * Add item (html) for multiple select box
 	 */
@@ -439,7 +406,7 @@
 	 */
 	Bselect.prototype.buildOption = function(id){
 		
-		disabled = this.selected(id) ? ' bselect-disabled' : '';
+		disabled = (this.selected(id) || this.disabled(id)) ? ' bselect-disabled' : '';
 		return "<li data-id='"+id+"' class='bselect-item "+this.elipsis+disabled+"'>"+this.jsonData[id]+"</li>";
 	}
 	/**
@@ -460,8 +427,67 @@
 		 if(results==''){
 			 results = '<div class="bselect-no-results">No results.</div>';
 		 }
-		  _self.list.html(results);
-		  _self.bindClick();
+		 	
+		 _self.list.html(results);
+		 _self.bindClick();
+		
+	}
+	/**
+	 * Disable selecting item by id/value
+	 */
+	Bselect.prototype.disable = function(id){
+		
+		var item = this.find(id);
+		if(item){
+			item.addClass('bselect-disabled');
+		}
+	}
+	/**
+	 * Enable selecting item by id/value
+	 */
+	Bselect.prototype.enable = function(id){
+		var item = this.find(id);
+		if(item){
+			item.removeClass('bselect-disabled');
+		}
+	}
+	/**
+	 * Enable all
+	 */
+	Bselect.prototype.enableAll = function(){
+		this.list_items = $('#'+this.id).find('.bselect-list').children();
+		
+		this.list_items.each(function(k,v){
+			$(v).removeClass('bselect-disabled');
+		})
+	}
+	/**
+	 * Disable all
+	 */
+	Bselect.prototype.disableAll = function(){
+		this.list_items = $('#'+this.id).find('.bselect-list').children();
+		
+		this.list_items.each(function(k,v){
+			$(v).addClass('bselect-disabled');
+		})
+	}
+	
+	/**
+	 * Find element in list
+	 */
+	Bselect.prototype.find = function(id){
+		//regrab new list_items
+		this.list_items = $('#'+this.id).find('.bselect-list').children();
+		var item = null;
+		if(this.list_items){
+			this.list_items.filter(function(){
+				if($(this).data('id')==id){
+					item =  $(this);
+					return false;
+				}
+			});
+		}
+		return item;
 		
 	}
 	/**

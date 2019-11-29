@@ -65,6 +65,13 @@
 				<button id="f-getSelected">Get selected</button>
 				<button id="f-prepend">Prepend - { 8 : "Paris"}</button>
 				<button id="f-append">Append - { 12 : "Berlin"}</button>
+				<button id="f-disable">Disable - { 1 : "Belgrade"}</button>
+				<button id="f-enable">Enable - { 1 : "Belgrade"}</button>
+				<button id="f-selectAll">Select All</button>
+				<button id="f-deselectAll">Deselect All</button>
+				
+				<button id="f-enableAll">Enable All</button>
+				<button id="f-disableAll">Disable All</button>
 			</div>
 		</div>
 
@@ -95,6 +102,36 @@ $('#select-box-preselect').bselect({
 	</div>
 </div>
 <script>
+	$('#f-selectAll').on('click', function(e){
+		
+		$('#select-box').bselect("selectAll");
+		
+	});
+	$('#f-deselectAll').on('click', function(e){
+		
+		$('#select-box').bselect("deselectAll");
+		
+	});
+	$('#f-enableAll').on('click', function(e){
+		
+		$('#select-box').bselect("enableAll");
+		
+	});
+	$('#f-disableAll').on('click', function(e){
+		
+		$('#select-box').bselect("disableAll");
+		
+	});
+	$('#f-disable').on('click', function(e){
+	
+		$('#select-box').bselect("disable", 1);
+		
+	});
+	$('#f-enable').on('click', function(e){
+		
+		$('#select-box').bselect("enable", 1);
+		//$('#select-box').bselect("open");
+	});
 	$('#f-prepend').on('click', function(e){
 
 		$('#select-box').bselect("prepend", "8", "Paris");
@@ -184,8 +221,8 @@ $('#select-box-preselect').bselect({
 
 	$('#select-box').bselect({
 		data : data, 
-		search : false, 
-		multiple : true, 
+		search : true, 
+		multiple : false, 
 		width : '200px',
 		defaultText : "Select..."
 	});
