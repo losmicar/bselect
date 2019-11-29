@@ -63,6 +63,7 @@
 				<button id="f-toggle">Toggle</button>
 				<button id="f-select">Select by value (2 = New York)</button>
 				<button id="f-getSelected">Get selected</button>
+				<button id="f-getDisabled">Get disabled</button>
 				<button id="f-prepend">Prepend - { 8 : "Paris"}</button>
 				<button id="f-append">Append - { 12 : "Berlin"}</button>
 				<button id="f-disable">Disable - { 1 : "Belgrade"}</button>
@@ -109,7 +110,7 @@ $('#select-box-preselect').bselect({
 	});
 	$('#f-deselectAll').on('click', function(e){
 		
-		$('#select-box').bselect("deselectAll");
+		$('#select-box').bselect("removeAll");
 		
 	});
 	$('#f-enableAll').on('click', function(e){
@@ -161,6 +162,12 @@ $('#select-box-preselect').bselect({
 	$('#f-getSelected').on('click', function(e){
 
 		alert('Selected value:'+$('#select-box').bselect("getSelected"))
+
+	});
+	
+	$('#f-getDisabled').on('click', function(e){
+
+		alert('Disabled values:'+$('#select-box').bselect("getDisabled"))
 
 	});
 	var data = {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"};
@@ -222,7 +229,7 @@ $('#select-box-preselect').bselect({
 	$('#select-box').bselect({
 		data : data, 
 		search : true, 
-		multiple : false, 
+		multiple : true, 
 		width : '200px',
 		defaultText : "Select..."
 	});
