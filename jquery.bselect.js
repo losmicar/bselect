@@ -19,7 +19,7 @@
 		};
 		this.settings = $.extend(this.defaultSettings, options);
 		this.element = element;
-		this.selectedItems = null;
+		this.selectedItems = []; //null;
 		this.disabledItems = [];
 		this.elipsis = this.settings.elipsis ? 'elipsis' : '';
 		this.searchInputValue = "";
@@ -247,9 +247,8 @@
 		
 		var selected = false;
 		if(this.selectedItems){
-			var s = this.selectedItems.split(',');
-			if(s){
-				s.filter(function(k,v){
+			if(this.selectedItems){
+				this.selectedItems.filter(function(k,v){
 					if(k==id){
 						selected =  true;
 						return false;
@@ -267,7 +266,8 @@
 	 */
 	Bselect.prototype.getSelected = function(){
 		
-		return this.selectedItems;
+		//return this.selectedItems;
+		return this.selectedItems!=null ? this.selectedItems.join(',') : this.selectedItems;
 	}
 	Bselect.prototype.getDisabled = function(){
 		
@@ -300,15 +300,18 @@
 	 */
 	Bselect.prototype.selectElement = function(elem){
 		
+		console.log('selectElement', elem)
 		var id = elem.data('id');
 		if(this.settings.multiple){
-			if(this.selectedItems==null || this.selectedItems==''){
+			//if(this.selectedItems==null || this.selectedItems==''){
+			if(this.selectedItems.length==0){
 				this.active.html('');
 			}
-			
+
 			this.active.append(this.addItem(elem));
 			this.appendSelectedValue(id);
-			elem.addClass('bselect-disabled');
+			this.disable(id);
+			//elem.addClass('bselect-disabled');
 			
 			//this.doneTyping(this, $(this.searchInput).val());
 			
@@ -363,7 +366,8 @@
 		this.removeSelectedValue(id);
 		this.enable(id);
 		elem.parent().remove();
-		if(this.selectedItems=='' || this.selectedItems==null){
+		//if(this.selectedItems=='' || this.selectedItems==null){
+		if(this.selectedItems.length==0){
 			this.active.html(this.wrapSelected(this.settings.defaultText));
 		}
 	}
@@ -373,9 +377,8 @@
 	Bselect.prototype.removeSelectedValue = function(value){
 		var v = this.input.val();
 		v = v.split(',');
-		v = this.removeA(v, value.toString());
-		this.selectedItems = v.join(',');
-		this.input.val(this.selectedItems);
+		this.selectedItems = this.removeA(v, value.toString());
+		this.input.val(this.selectedItems.join(','));
 	}
 	/**
 	 * Remove item from array bu value
@@ -411,8 +414,8 @@
 			}
 		}
 		v.push(value);
-		this.selectedItems = v.join(',');
-		this.input.val(this.selectedItems);
+		this.selectedItems = v; //v.join(',');
+		this.input.val(this.selectedItems.join(','));
 		
 	}
 	/**
@@ -420,7 +423,8 @@
 	 */
 	Bselect.prototype.buildOption = function(id){
 		
-		disabled = (this.selected(id) || this.disabled(id) || this.disabledItems.includes(id)) ? ' bselect-disabled' : '';
+		//disabled = (this.selected(id) || this.disabled(id) || this.disabledItems.includes(id)) ? ' bselect-disabled' : '';
+		disabled = (this.selectedItems.includes(id) || this.disabledItems.includes(id)) ? ' bselect-disabled' : '';
 		return "<li data-id='"+id+"' class='bselect-item "+this.elipsis+disabled+"'>"+this.jsonData[id]+"</li>";
 	}
 	/**
@@ -444,6 +448,7 @@
 		 	
 		 _self.list.html(results);
 		 _self.bindClick();
+		 
 		
 	}
 	/**
@@ -523,7 +528,7 @@
 		
 		if(this.selectedItems){
 			
-			var selected = this.selectedItems.split(',');
+			var selected = this.selectedItems; //.split(',');
 			var _self = this;
 			
 			if(this.settings.multiple){
@@ -532,7 +537,7 @@
 						_self.removeSelected($('#bselect-multiple-'+id).find('.bselect-remove'));
 				});
 			}else{
-				var selected = this.selectedItems.split(',');
+				var selected = this.selectedItems; //.split(',');
 				$.each(selected, function( index, id ){
 					_self.deselect(_self.find(id));
 				});

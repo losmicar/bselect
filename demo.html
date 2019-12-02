@@ -107,6 +107,7 @@ $('#select-box-preselect').bselect({
 	$('#f-selectAll').on('click', function(e){
 		
 		$('#select-box').bselect("selectAll");
+		$('#select-box').bselect("open");
 		
 	});
 	$('#f-deselectAll').on('click', function(e){
@@ -175,7 +176,8 @@ $('#select-box-preselect').bselect({
 		alert('Disabled values:'+$('#select-box').bselect("getDisabled"))
 
 	});
-	var data = {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"};
+    var data = {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"};
+	
 	$('#select-box-preselect').bselect({
 		data : data, 
 		search : true, 
