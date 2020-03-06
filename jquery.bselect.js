@@ -551,9 +551,11 @@
 		if(typeof elem != 'object'){
 			elem = this.find(elem);
 		}
-		var id = elem.data('id');
-		this.removeSelectedValue(id);
-		this.enable(id);
+		if(elem != null){
+			var id = elem.data('id');
+			this.removeSelectedValue(id);
+			this.enable(id);
+		}
 	}
 	/**
 	 * Find element in list
