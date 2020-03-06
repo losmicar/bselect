@@ -534,7 +534,7 @@
 			if(this.settings.multiple){
 				
 				$.each(selected, function( index, id ){
-						_self.removeSelected($('#bselect-multiple-'+id).find('.bselect-remove'));
+					_self.removeSelected($('#'+_self.id + ' #bselect-multiple-'+id + ' .bselect-remove'));
 				});
 			}else{
 				var selected = this.selectedItems; //.split(',');
