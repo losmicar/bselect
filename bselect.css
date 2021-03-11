@@ -57,7 +57,7 @@
 	
 }
 .bselect-content{
-	display:none;
+	visibility:hidden;
 	    
     background: #fff;
     border: 1px solid #dedede;

@@ -32,6 +32,7 @@
 	 * Start building Bselect, create html template and bind events
 	 */
 	Bselect.prototype.build = function(){
+		console.log("build");
 		this.build_template();
 		this.bind_events();
 	}
@@ -39,6 +40,8 @@
 	 * Build HTML template
 	 */
 	Bselect.prototype.build_template = function(){
+		
+		console.log("build_template");
 		
 		var template = '<div class="bselect '+this.settings.className+'" id="'+this.id+'-bselect">';
 		
@@ -105,7 +108,7 @@
 		
 	}
 	Bselect.prototype.isElementInViewport = function() {
-
+		console.log("isElementInViewport");
 	    var rect = this.content[0].getBoundingClientRect();
 
 	    return (
@@ -116,6 +119,7 @@
 	    );
 	}
 	Bselect.prototype.wrapSelected = function(text){
+		console.log("wrapSelected");
 		return "<div class='bselect-default-text'>"+text+"</div>";
 	}
 	
@@ -123,7 +127,7 @@
 	 * Check Promise to prevent UI block
 	 */
 	Bselect.prototype.promise = function(delay){
-
+		console.log("promise");
 		return new Promise(function(resolve, reject) { 
 		
 			if(delay){
@@ -138,10 +142,10 @@
 	 * Open Bselect
 	 */
 	Bselect.prototype.open = function(e){
-		
+		console.log("open");
 		var _self = this;
 		_self.element.trigger("open.bselect", {bselect : _self.id, obj : _self});
-		_self.content.css("display","block");
+		_self.content.css("visibility","visible");
 		
 		if(_self.settings.checkInView && !_self.isElementInViewport()){
 			_self.content.css("top","-"+($(_self.content).height()+1)+'px');
@@ -162,24 +166,11 @@
 	 * Close Bselect
 	 */
 	Bselect.prototype.close = function(e){
-
+		console.log("close");
 		if(this.settings.opened){
-			
 			this.element.trigger("close.bselect", {bselect : this.id, obj : this});
-			
-			this.content.css("display","none");
-			var _self = this;
-			
-			_self.promise().then(function(){
-				
-				_self.settings.opened = false;
-				_self.searchInput.val("");
-				_self.doneTyping(_self, "");
-				$(document).off('click.bselect.document');
-				
-			})
-			
-			
+			this.content.css("visibility","hidden");this.settings.opened = false;
+			$(document).off('click.bselect.document');
 			this.element.trigger("closed.bselect", {bselect : this.id, obj : this});
 		}
 	}
@@ -187,7 +178,7 @@
 	 * Toggle bSelect
 	 */
 	Bselect.prototype.toggle = function(e){
-		
+		console.log("toggle");
 		var _self = this;
 		_self.element.trigger("toggle.bselect", {bselect : _self.id, obj : _self});
 		
@@ -219,7 +210,7 @@
 	 * Add item to bSelect
 	 */
 	Bselect.prototype.add = function add(method, id, name){
-		
+		console.log("add");
 		if(this.jsonData[id]==undefined){
 			this.jsonData[id] = name;
 			var option = this.buildOption(id);
@@ -233,7 +224,7 @@
 	 * Select by ID (value of the selectbox)
 	 */
 	Bselect.prototype.selectById = function(id, doNotTriggerEvents){
-		
+		console.log("selectById");
 		var item = this.find(id);
 		if(item!=undefined){
 			this.select(item, doNotTriggerEvents);
@@ -244,7 +235,7 @@
 	 * Find element in list
 	 */
 	Bselect.prototype.findSelected = function(id){
-		
+		console.log("findSelected");
 		var selected = false;
 		if(this.selectedItems){
 			if(this.selectedItems){
@@ -265,7 +256,7 @@
 	 * For multiple selectbox it will return csv of the values
 	 */
 	Bselect.prototype.getSelected = function(){
-		
+		console.log("getSelected");
 		//return this.selectedItems;
 		return this.selectedItems!=null ? this.selectedItems.join(',') : this.selectedItems;
 	}
@@ -277,7 +268,9 @@
 	 * Select item
 	 */
 	Bselect.prototype.select = function(elem, doNotTriggerEvents){
-				
+		
+		console.log("select");
+		
 		if(elem.hasClass('bselect-disabled')){
 			return false;
 		}
@@ -332,6 +325,8 @@
 	 */
 	Bselect.prototype.removeSelected = function(elem){
 		
+		console.log("removeSelected");
+		
 		this.removeItem($(elem));
 		this.doneTyping(this, $(this.searchInput).val());
 		this.element.trigger("unseleced.bselect", {bselect : this.id, element : elem, obj : this});
@@ -356,6 +351,13 @@
 	 */
 	Bselect.prototype.addItem = function(elem){
 		return '<div class="bselect-multiple-item" id="bselect-multiple-'+elem.data('id')+'" data-id="'+elem.data('id')+'">'+elem.text()+' <div class="bselect-remove" data-id="'+elem.data('id')+'">X</div></div>';
+	}
+	/**
+	 * Remove item compleatley
+	 */
+	Bselect.prototype.remove = function(id){
+		this.list_items = $('#'+this.id).find(".bselect-list li[data-id='"+id+"']").remove();
+		delete(this.jsonData[id]);
 	}
 	/**
 	 * Remove item called on click of the X button
@@ -534,7 +536,7 @@
 			if(this.settings.multiple){
 				
 				$.each(selected, function( index, id ){
-						_self.removeSelected($('#bselect-multiple-'+id).find('.bselect-remove'));
+					_self.removeSelected($('#'+_self.id + ' #bselect-multiple-'+id + ' .bselect-remove'));
 				});
 			}else{
 				var selected = this.selectedItems; //.split(',');
@@ -551,9 +553,11 @@
 		if(typeof elem != 'object'){
 			elem = this.find(elem);
 		}
-		var id = elem.data('id');
-		this.removeSelectedValue(id);
-		this.enable(id);
+		if(elem != null){
+			var id = elem.data('id');
+			this.removeSelectedValue(id);
+			this.enable(id);
+		}
 	}
 	/**
 	 * Find element in list
