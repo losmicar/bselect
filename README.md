@@ -135,6 +135,9 @@ $('#select-box').bselect("append", 12, "Paris")
 //Prepend new item
 $('#select-box').bselect("prepend", 8, "Berlin")
 
+//Remove item
+$('#select-box').bselect("remove", 8);
+
 //Disable click on item
 $('#select-box').bselect("disable", 8)
 
