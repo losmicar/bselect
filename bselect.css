@@ -3,6 +3,9 @@
     font-family: sans-serif;
     position: relative;
 }
+.bselect-input{
+	display:none;
+}
 .bselect-active{
 	cursor:pointer;
 	background:#fff;

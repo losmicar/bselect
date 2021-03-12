@@ -67,6 +67,7 @@
 				<button id="f-getDisabled">Get disabled</button>
 				<button id="f-prepend">Prepend - { 8 : "Paris"}</button>
 				<button id="f-append">Append - { 12 : "Berlin"}</button>
+				<button id="f-remove">Remove - { 12 : "Berlin"}</button>
 				<button id="f-disable">Disable - { 1 : "Belgrade"}</button>
 				<button id="f-enable">Enable - { 1 : "Belgrade"}</button>
 				<button id="f-selectAll">Select All</button>
@@ -96,7 +97,8 @@ $('#select-box-preselect').bselect({
 	closeOnSelect : true,
 	elipsis : true,
 	focusDelay : 100, //ms
-	doneTypingInterval : 180 //ms
+	doneTypingInterval : 180, //ms
+	preview : 150 //How many items will be previewd in a dropdown
 });
 </pre>
 
@@ -149,6 +151,12 @@ $('#select-box-preselect').bselect({
 		$('#select-box').bselect("append", "12", "Berlin");
 		$('#select-box').bselect("open");
 	});
+	$('#f-remove').on('click', function(e){
+
+		$('#select-box').bselect("remove", 12)
+		$('#select-box').bselect("open");
+	});
+	
 	$('#f-open').on('click', function(e){
 
 		$('#select-box').bselect("open");
