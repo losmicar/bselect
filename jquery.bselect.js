@@ -6,7 +6,7 @@
 	}
 	var Bselect = function(element, options) {
 		this.defaultSettings = {
-			debug : false,
+			debug : true,
 			search : true,
 			width : "200px",
 			defaultText : "Select me",
@@ -20,6 +20,7 @@
 			elipsis : true,
 			focusDelay : 100, // ms
 			doneTypingInterval : 0,
+			removeItemsButton : false, //Display X button next to every item in drop down list
 			/* Maximum items to preview in drop down list (increasing this value can slow down page rendering)
 			 * Even not listed in a dropdown UI search will go through settings.data and list results
 			 */
@@ -61,7 +62,7 @@
 				+ '" id="' + this.id + '-bselect">';
 
 		var input = $("input[value='" + this.settings.inputName + "']");
-		template += this.settings.input != undefined ? this.settings.search : "<input type='hidden' name='" + this.settings.inputName + "' value='' class='bselect-input' />";
+
 		if (this.settings.input != undefined) {
 			template += this.settings.search;
 		} else {
@@ -331,7 +332,7 @@
 	 * Select item
 	 */
 	Bselect.prototype.select = function(elem, triggerEvents) {
-		this.log('select');
+		this.log('select', triggerEvents, elem);
 		if (elem.hasClass('bselect-disabled')) {
 			return false;
 		}
@@ -367,8 +368,11 @@
 	 * etc.
 	 */
 	Bselect.prototype.selectElement = function(elem) {
-		this.log('selectElement');
+		
 		var id = elem.data('id');
+		
+		this.log('selectElement', id, elem);
+		
 		if (this.settings.multiple) {
 			// if(this.selectedItems==null || this.selectedItems==''){
 			if (this.selectedItems.length == 0) {
@@ -388,7 +392,7 @@
 			this.deselectAll();
 
 			this.appendSelectedValue(id);
-			this.active.html(this.wrapSelected(elem.text()));
+			this.active.html(this.wrapSelected(elem.children().first().text()));
 
 		}
 
@@ -435,7 +439,7 @@
 		this.log('addItem');
 		return '<div class="bselect-multiple-item" id="bselect-multiple-'
 				+ elem.data('id') + '" data-id="' + elem.data('id') + '">'
-				+ elem.text() + ' <div class="bselect-remove" data-id="'
+				+ elem.children().first().text() + ' <div class="bselect-remove" data-id="'
 				+ elem.data('id') + '">X</div></div>';
 	}
 	/**
@@ -520,9 +524,13 @@
 		// disabled = (this.selected(id) || this.disabled(id) ||
 		// this.disabledItems.includes(id)) ? ' bselect-disabled' : '';
 		disabled = (this.selectedItems.includes(id) || this.disabledItems.includes(id)) ? ' bselect-disabled' : '';
+		remove = '';
+		if(this.settings.removeItemsButton){
+			remove = "<div class='bselect-remove' data-id='"+id+"'>X</div>";
+		}
 		
 		return "<li data-id='" + id + "' class='bselect-item " + this.elipsis
-				+ disabled + "'>" + this.jsonData[id] + "</li>";
+				+ disabled + "'><div class='bselect-text'>" + this.jsonData[id] + "</div>"+remove+"</li>";
 	}
 	/**
 	 * Done search typing
@@ -554,8 +562,8 @@
 	 * Disable selecting item by id/value
 	 */
 	Bselect.prototype.disable = function(id) {
-		this.log('disable');
 		var item = this.find(id);
+		this.log('disable', id, item);
 		if (item) {
 			this.disabledItems = this.removeA(this.disabledItems, id);
 			this.disabledItems.push(id.toString());
@@ -579,9 +587,9 @@
 	 */
 	Bselect.prototype.enableAll = function() {
 		this.log('enableAll');
-		// this.list_items = $('#'+this.id).find('.bselect-list').children();
+		//this.list_items = $('#'+this.id).find('.bselect-list').children();
 		var _self = this;
-		this.list_items.each(function(k, v) {
+		this.list.children().each(function(k, v) {
 			// $(v).removeClass('bselect-disabled');
 			_self.enable($(v).data('id'))
 		})
@@ -593,7 +601,7 @@
 		this.log('disableAll');
 		// this.list_items = $('#'+this.id).find('.bselect-list').children();
 		var _self = this;
-		this.list_items.each(function(k, v) {
+		this.list.children().each(function(k, v) {
 			_self.disable($(v).data('id'))
 		})
 	}
@@ -607,7 +615,7 @@
 			// this.list_items =
 			// $('#'+this.id).find('.bselect-list').children();
 			var _self = this;
-			$.each(this.list_items, function(key, val) {
+			$.each(this.list.children(), function(key, val) {
 				if (!$(val).hasClass('bselect-disabled')) {
 
 					_self.select($(val))
@@ -670,7 +678,8 @@
 	Bselect.prototype.find = function(id) {
 		this.log('find');
 		// regrab new list_items
-		// this.list_items = $('#'+this.id).find('.bselect-list').children();
+		//this.list_items = $('#'+this.id).find('.bselect-list').children();
+		this.list_items = this.list.children();
 		var item = null;
 		if (this.list_items) {
 			this.list_items.filter(function() {
@@ -691,7 +700,11 @@
 		var _self = this;
 		this.list.children().off('click.bselect.click').on(
 				'click.bselect.click', function(e) {
-					_self.select($(this));
+					if($(e.target).hasClass('bselect-remove')){
+						_self.removeSelected(e.target);
+					}else{
+						_self.select($(this));
+					}
 				});
 	}
 	/**

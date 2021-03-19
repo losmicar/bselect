@@ -22,6 +22,17 @@
     position:relative;
     display:inline-block;
 }
+.bselect-item{
+	display:inline-flex;
+	width:100%;
+}
+.bselect-item .bselect-remove{
+	display:none;
+}
+.bselect-item.bselect-disabled .bselect-remove{
+	display:block;
+	color:#000;
+}
 .bselect-disabled{
 	color:#ababab;
 }
