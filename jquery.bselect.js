@@ -48,7 +48,6 @@
 	 * Start building Bselect, create html template and bind events
 	 */
 	Bselect.prototype.build = function() {
-		this.log('build', {"djoka":"runda"}, ['aa']);
 		this.build_template();
 		this.bind_events();
 	}
@@ -61,7 +60,7 @@
 				+ '" id="' + this.id + '-bselect">';
 
 		var input = $("input[value='" + this.settings.inputName + "']");
-		template += this.settings.input != undefined ? this.settings.search : "<input type='hidden' name='" + this.settings.inputName + "' value='' class='bselect-input' />";
+		// template += this.settings.input != undefined ? this.settings.search : "<input type='hidden' name='" + this.settings.inputName + "' value='' class='bselect-input' />";
 		if (this.settings.input != undefined) {
 			template += this.settings.search;
 		} else {
@@ -333,6 +332,13 @@
 	Bselect.prototype.select = function(elem, triggerEvents) {
 		this.log('select');
 		if (elem.hasClass('bselect-disabled')) {
+			// remove element from bselect list if X is clicked
+			var _self = this;
+			$('.bselect-list').on('click', elem, function (e) {
+				if ($(e.target).hasClass('bselect-remove-selected')) {
+					_self.removeSelected(e.target);
+				}
+			});
 			return false;
 		}
 		if (!triggerEvents)
@@ -560,6 +566,7 @@
 			this.disabledItems = this.removeA(this.disabledItems, id);
 			this.disabledItems.push(id.toString());
 			item.addClass('bselect-disabled');
+			item.append('<div class="bselect-remove-selected" data-id="'+id+'">X</div>');
 		}
 	}
 	/**
@@ -604,17 +611,23 @@
 	Bselect.prototype.selectAll = function() {
 		this.log('selectAll');
 		if (this.settings.multiple) {
-			// this.list_items =
-			// $('#'+this.id).find('.bselect-list').children();
-			var _self = this;
+			var _self = this,
+				v = [];
 			$.each(this.list_items, function(key, val) {
 				if (!$(val).hasClass('bselect-disabled')) {
 
-					_self.select($(val))
+					// _self.select($(val));
+					_self.selectElement($(val));
 				}
 			});
-		}
 
+			$.each(this.settings.data, function(key, val) {
+				v.push(key);
+			});
+
+			this.selectedItems = v;
+			this.input.val(v.join(','));
+		}
 	}
 
 	/*
