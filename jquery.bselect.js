@@ -20,7 +20,7 @@
 			elipsis : true,
 			focusDelay : 100, // ms
 			doneTypingInterval : 0,
-			removeItemsButton : false, //Display X button next to every item in drop down list
+			removeItemsButton : true, //Display X button next to every item in drop down list
 			/* Maximum items to preview in drop down list (increasing this value can slow down page rendering)
 			 * Even not listed in a dropdown UI search will go through settings.data and list results
 			 */
