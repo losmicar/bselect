@@ -326,6 +326,14 @@
 		this.log('getSelected');
 		return this.selectedItems != null ? this.selectedItems.join(',') : this.selectedItems;
 	}
+	Bselect.prototype.getSelectedText = function() {
+		this.log('getSelectedText');
+		var selectedText = [];
+		for(var i in this.selectedItems){
+			selectedText.push(this.jsonData[this.selectedItems[i]]);
+		}
+		return selectedText != null ? selectedText.join(',') : selectedText;
+	}
 	Bselect.prototype.getDisabled = function() {
 		this.log('getDisabled');
 		return this.disabledItems != null ? this.disabledItems.join(',') : this.disabledItems;

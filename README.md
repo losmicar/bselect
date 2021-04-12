@@ -129,6 +129,9 @@ $('#select-box').bselect("selectById", 2);
 //Get selected value (will return multiple values in csv format when multiple mode is enabled)
 $('#select-box').bselect("getSelected")
 
+//Get selected text (will return multiple values in csv format when multiple mode is enabled)
+$('#select-box').bselect("getSelectedText")
+
 //Apepnd new item
 $('#select-box').bselect("append", 12, "Paris")
 
