@@ -478,7 +478,7 @@
 		var id = elem.data('id');
 		this.removeSelectedValue(id);
 		this.enable(id);
-		$('#bselect-multiple-'+id).remove();
+		this.element.find('#bselect-multiple-'+id).remove();
 		//elem.parent().remove();
 		// if(this.selectedItems=='' || this.selectedItems==null){
 		if (this.selectedItems.length == 0) {
