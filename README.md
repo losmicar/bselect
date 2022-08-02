@@ -31,7 +31,7 @@ jQuery 2.X
 <div id="custom-select"></div>
 <script>
 	$('#custom-select').bselect({
-		data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
+		data : {1 : "Belgrade", 2 : "New York", 3 : "Vienna", 4 : "Budapest"}, 
 		search : true, 
 		width : '200px',
 		defaultText : "Select..."
@@ -42,7 +42,7 @@ jQuery 2.X
 <div id="custom-select"></div>
 <script>
 	$('#custom-select').bselect({
-		data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
+		data : {1 : "Belgrade", 2 : "New York", 3 : "Vienna", 4 : "Budapest"}, 
 		search : true, 
 		multiple : true, 
 		width : '200px',
@@ -177,7 +177,7 @@ $('#select-box').bselect("enableAll");
 
 ```javascript
 $('#select-box-preselect').bselect({
-	data : {1 : "Belgrade", 2 : "New York", 3 : "Viena", 4 : "Budapest"}, 
+	data : {1 : "Belgrade", 2 : "New York", 3 : "Vienna", 4 : "Budapest"}, 
 	search : true, //To enable quick search
 	width : "200px",
 	multiple : false, //To enable multiple selectbox mode

@@ -24,7 +24,8 @@
 			/* Maximum items to preview in drop down list (increasing this value can slow down page rendering)
 			 * Even not listed in a dropdown UI search will go through settings.data and list results
 			 */
-			preview : 100, //Num of items in dropdown UI to be displayed
+			preview : 300, //Num of items in dropdown UI to be displayed,
+			selectedCount: false
 		};
 		this.settings = $.extend(this.defaultSettings, options);
 		this.element = element;
@@ -35,6 +36,7 @@
 		this.jsonData = this.settings.data ? JSON.clone(this.settings.data) : null;
 		this.id = $(element).attr('id');
 		this.typingTimer = null;
+		this.selectedCountDiv = null;
 		this.build();
 	}
 	/**
@@ -185,6 +187,13 @@
 			obj : _self
 		});
 		_self.content.css("visibility", "visible");
+		
+		if(_self.settings.selectedCount) {
+			if(_self.selectedItems.length > 1) {
+				_self.elem.find('.bselect-multiple-item').show();
+				_self.elem.find('.bselect-selected-count').hide();
+			}
+		}
 
 		if (_self.settings.checkInView && !_self.isElementInViewport()) {
 			_self.content.css("top", "-" + ($(_self.content).height() + 1)
@@ -225,6 +234,12 @@
 				bselect : this.id,
 				obj : this
 			});
+		}
+		if(this.settings.selectedCount) {
+			if(this.selectedItems.length > 1) {
+				this.elem.find('.bselect-multiple-item').hide();
+				this.elem.find('.bselect-selected-count').show();
+			}
 		}
 	}
 	/**
@@ -396,8 +411,12 @@
 				this.active.html('');
 			}
 
-			this.active.append(this.addItem(elem));
 			this.appendSelectedValue(id);
+			this.active.append(this.addItem(elem));
+			
+			if( this.settings.selectedCount ) {
+				this.handleSelectedCount();
+			}
 			this.disable(id);
 			// elem.addClass('bselect-disabled');
 
@@ -431,6 +450,34 @@
 			element : $(elem),
 			obj : this
 		});
+		
+		if( this.settings.selectedCount ) {
+			this.handleSelectedCount();
+		}
+	}
+	
+	Bselect.prototype.handleSelectedCount = function() {
+		
+		if( this.selectedCountDiv ) {
+			if( this.selectedItems.length > 1 && !this.settings.opened ) {
+				this.elem.find('.bselect-multiple-item').hide();
+				this.elem.find('.bselect-selected-count').show();
+			} else {	
+				this.elem.find('.bselect-multiple-item').show();
+				this.elem.find('.bselect-selected-count').hide();
+				if( this.selectedItems.length == 0 ) {
+					this.selectedCountDiv = null;
+				}
+			}
+			this.elem.find('.bselect-selected-items').text(this.selectedItems.length + ' selected');
+		} else {
+			this.active.prepend(this.addSelectedCount());
+			if( this.selectedItems.length > 1) {
+				this.selectedCountDiv = this.elem.find('.bselect-selected-items');
+				this.elem.find('.bselect-multiple-item').hide();
+			}
+		}
+		
 	}
 
 	/**
@@ -458,6 +505,26 @@
 				+ elem.children().first().text() 
 				+ ' <div class="bselect-remove" data-id="'+ elem.data('id') + '">X</div>'
 				+ '</div>';
+	}
+	/**
+	 * Add selected items count
+	 */
+	Bselect.prototype.addSelectedCount = function() {
+		this.log('addSelectedCount', this.selectedItems);
+		
+		if( this.selectedItems.length < 2 ) {
+			return '';
+		} else {
+			return '<div class="bselect-selected-count">'+
+				'<div class="bselect-selected-items">'+this.selectedItems.length+' selected</div>' +
+				'<div class="bselect-selected-empty">' +
+					'<svg height="14" width="14" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="bselect-close-svg">' +
+						'<path class="bselect-close-svg" d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"></path>' +
+					'</svg>' +
+				'</div>'+
+			'</div>'
+		}
+		
 	}
 	/**
 	 * Remove item compleatley
@@ -666,6 +733,7 @@
 		if (this.selectedItems) {
 
 			var selected = this.selectedItems; // .split(',');
+			this.selectedCountDiv = null;
 			var _self = this;
 
 			if (this.settings.multiple) {
@@ -750,6 +818,8 @@
 					if ($(e.target).hasClass('bselect-remove')
 							&& _self.settings.multiple) {
 						_self.removeSelected(e.target);
+					} else if($(e.target).hasClass('bselect-selected-empty') || $(e.target).hasClass('bselect-close-svg')) {
+						_self.deselectAll();
 					} else {
 						_self.toggle(e);
 					}
@@ -771,7 +841,6 @@
 		// $(this.searchInput).on('keydown', function () {
 		// clearTimeout(_self.typingTimer);
 		// });
-
 	}
 
 	$.fn.bselect = function() {
