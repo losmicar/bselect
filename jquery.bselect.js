@@ -445,11 +445,21 @@
 		this.log('removeSelected', elem);
 		this.removeItem($(elem));
 		this.doneTyping(this, $(this.searchInput).val());
-		this.element.trigger("unselected.bselect", {
-			bselect : this.id,
-			element : $(elem),
-			obj : this
-		});
+		
+		if(this.removeAllFlag && this.selectedItems.length == 0) {
+			this.removeAllFlag = false;
+			this.element.trigger("unselectedall.bselect", {
+				bselect : this.id,
+				element : $(elem),
+				obj : this
+			});
+		} else if(!this.removeAllFlag) {
+			this.element.trigger("unselected.bselect", {
+				bselect : this.id,
+				element : $(elem),
+				obj : this
+			});
+		}
 		
 		if( this.settings.selectedCount ) {
 			this.handleSelectedCount();
@@ -721,6 +731,7 @@
 	 * Remove all data from hidden input
 	 */
 	Bselect.prototype.removeAll = function() {
+		this.removeAllFlag = true;
 		this.log('removeAll');
 		this.deselectAll();
 
@@ -819,7 +830,7 @@
 							&& _self.settings.multiple) {
 						_self.removeSelected(e.target);
 					} else if($(e.target).hasClass('bselect-selected-empty') || $(e.target).hasClass('bselect-close-svg')) {
-						_self.deselectAll();
+						_self.removeAll();
 					} else {
 						_self.toggle(e);
 					}
